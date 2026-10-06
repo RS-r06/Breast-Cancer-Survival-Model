@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Breast Cancer Survival Model</title>
+    <meta name="description" content="A Cox model for 5-year recurrence-free survival in node-positive breast cancer, developed on the Rotterdam tumour bank and validated on the GBSG trial. A learning project, not for clinical use." />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Breast Cancer Survival Model</h1>
+      <p class="warning" role="note"><strong>Not for clinical use.</strong> This is a learning project built on
+      research data from women treated between 1978 and 1993. Treatment has improved a great deal since then,
+      so its numbers are too pessimistic for anyone today. Never use it to make or discuss a real decision.</p>
+    </header>
+
+    <main class="layout">
+      <form id="inputs" class="panel" aria-label="Patient profile">
+        <h2>Profile</h2>
+        <label>Age at surgery <input type="number" name="age" min="21" max="90" value="55" required /></label>
+        <label>Menopause
+          <select name="meno"><option value="0">Premenopausal</option><option value="1" selected>Postmenopausal</option></select>
+        </label>
+        <label>Tumour size, mm <input type="number" name="size_mm" min="1" max="150" value="25" required /></label>
+        <label>Grade
+          <select name="grade"><option value="1">1</option><option value="2" selected>2</option><option value="3">3</option></select>
+        </label>
+        <label>Positive lymph nodes <input type="number" name="nodes" min="1" max="50" value="3" required /></label>
+        <label>Progesterone receptor, fmol/l <input type="number" name="pgr" min="0" max="5000" value="50" required /></label>
+        <label>Oestrogen receptor, fmol/l <input type="number" name="er" min="0" max="5000" value="50" required /></label>
+        <label>Hormone therapy
+          <select name="hormon"><option value="0" selected>No</option><option value="1">Yes</option></select>
+        </label>
+        <p class="hint">The model was built only on women whose cancer had reached at least one lymph node.</p>
+      </form>
+
+      <section class="panel result" aria-live="polite">
+        <h2>Predicted recurrence-free survival</h2>
+        <p class="big"><span id="rfs">-</span> alive without recurrence at 5 years</p>
+        <canvas id="curve" aria-label="Predicted survival curve over 5 years"></canvas>
+        <p class="legend"><span class="key you"></span> This profile <span class="key avg"></span> Average woman in the development data</p>
+      </section>
+    </main>
+
+    <section class="about">
+      <h2>How good is the model?</h2>
+      <p id="validation"></p>
+      <p>Built with a Cox proportional hazards model on <span id="ndev"></span> women from the Rotterdam
+      tumour bank, then tested, unchanged, on 686 women from the German Breast Cancer Study Group trial.
+      <a href="https://github.com/RS-r06/Breast-Cancer-Survival-Model">Method, statistics and code on GitHub</a>.</p>
+    </section>
+
+    <script src="model.js"></script>
+    <script src="calculator.js"></script>
+  </body>
+</html>
